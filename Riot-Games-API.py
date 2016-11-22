@@ -6,7 +6,6 @@
 
 # more info: https://github.com/pseudonym117/Riot-Watcher
 from riotwatcher import RiotWatcher
-import datetime
 import time
 
 w = RiotWatcher("RGAPI-76f4bcb6-da64-455a-aad2-07eee7ad0e8f")
@@ -54,3 +53,20 @@ def most_played_champions(champ_dict): #returns a sorted list of tuples that sor
 most_played_champions = most_played_champions(champion_dict)
 #print (most_played_champions)
 
+def win_percentage(champ_dict):
+	dct = {}
+	for each_champ in my_ranked_stats['champions']:
+		for key in champ_dict:
+			if(each_champ['id']==champ_dict[key]):
+				dct[key] = each_champ['stats']['totalSessionsWon']/each_champ['stats']['totalSessionsPlayed']
+	return sorted(dct.items(), key = lambda x : (-x[1], x[0]))
+
+win_pct = win_percentage(champion_dict)
+#print (win_pct)
+
+def overall_win_percentage()
+
+
+#how to convert epoch milliseconds to readable date
+x = 1479701601000/1000
+print (time.strftime('%Y-%m-%d', time.localtime(x))) #prints out the date for epoch milliseconds adding "%H:%M:%S" gives hours minutes seconds
