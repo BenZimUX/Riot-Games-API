@@ -70,3 +70,11 @@ def overall_win_percentage()
 #how to convert epoch milliseconds to readable date
 x = 1479701601000/1000
 print (time.strftime('%Y-%m-%d', time.localtime(x))) #prints out the date for epoch milliseconds adding "%H:%M:%S" gives hours minutes seconds
+
+#IDEAS
+# When's the first time that you played? vs When's the last time you played?
+
+#  Who do you play with frequently?
+# 	Maybe get some information about someone they play with frequently
+
+#  How do your champion stats compare with global champion stats
