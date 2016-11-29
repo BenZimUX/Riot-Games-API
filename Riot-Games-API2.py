@@ -45,7 +45,7 @@ class Riot_Data():
 
 	def most_played_champions(self, champ_dict): #returns a sorted list of tuples that sorts it based on games played 
 		dct = {}
-		for each_champ in data.my_ranked_stats['champions']:
+		for each_champ in self.my_ranked_stats['champions']:
 			for key in champ_dict:
 				if(each_champ['id']==champ_dict[key]):
 					dct[key] = each_champ['stats']['totalSessionsPlayed'] 
@@ -55,7 +55,7 @@ class Riot_Data():
 
 	def ranked_win_percentage(self, champ_dict):
 		dct = {}
-		for each_champ in data.my_ranked_stats['champions']:
+		for each_champ in self.my_ranked_stats['champions']:
 			for key in champ_dict:
 				if(each_champ['id']==champ_dict[key]):
 					dct[key] = each_champ['stats']['totalSessionsWon']/each_champ['stats']['totalSessionsPlayed']
@@ -66,7 +66,7 @@ class Riot_Data():
 
 	def overall_ranked_win_percentage(self):
 		x = 0
-		for y in data.stat_summary['playerStatSummaries']:
+		for y in self.stat_summary['playerStatSummaries']:
 			for key in y:
 				if(y['playerStatSummaryType']=="RankedSolo5x5"):
 					x = y['wins']/(y['losses']+y['wins'])
@@ -77,7 +77,7 @@ class Riot_Data():
 
 	def last_played_ranked_game(self):
 		x = 0
-		for y in data.stat_summary['playerStatSummaries']:
+		for y in self.stat_summary['playerStatSummaries']:
 			for key in y:
 				if(y['playerStatSummaryType']=="RankedSolo5x5"):
 					x = y['modifyDate']
@@ -89,7 +89,7 @@ class Riot_Data():
 
 	def last_played_flex_game(self):
 		x = 0
-		for y in data.stat_summary['playerStatSummaries']:
+		for y in self.stat_summary['playerStatSummaries']:
 			for key in y:
 				if(y['playerStatSummaryType']=="RankedFlexSR"):
 					x = y['modifyDate']
