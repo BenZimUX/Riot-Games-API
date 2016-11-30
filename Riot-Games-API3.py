@@ -22,30 +22,28 @@ class Cleaned_Champion_Data():
 	def __init__(self, champion_list = {}):
 		self.champion_list = champion_list
 
-	def champion_ids_list(): #list of champion ids
+	def champion_ids_list(self): #list of champion ids
 		lst = []
-		for each_champ in champion_list['data']:
-			lst.append(champion_list['data'][each_champ]['id'])
+		for each_champ in self.champion_list['data']:
+			lst.append(self.champion_list['data'][each_champ]['id'])
 		return lst #each element in the list is an integer
-	# champion_ids_list = champion_ids_list()
 			
-	#don't use this one in the Class
-	def champion_dict(): #dictionary of Champion Names (keys) and Champion ids (values)
+
+	def champion_dict(self): #dictionary of Champion Names (keys) and Champion ids (values)
 		dct = {}
-		for each_champ in champion_list['data']:
-			dct[champion_list['data'][each_champ]['name']] = champion_list['data'][each_champ]['id']
+		for each_champ in self.champion_list['data']:
+			dct[self.champion_list['data'][each_champ]['name']] = self.champion_list['data'][each_champ]['id']
 		return dct
-	# champion_dict = champion_dict()***********
 	
-# Do I have to initialize the class here and call the functions in order to pass them into my class Riot_Data?
-class Riot_Data(Static_Data):
+
+class Riot_Data(Cleaned_Champion_Data):
 	def __init__(self, my_ranked_stats = {}, stat_summary = {}):
-		Static_Data.__init__(self, champion_list = {})
+		Cleaned_Champion_Data.__init__(self, champion_list)
 		self.my_ranked_stats = my_ranked_stats
 		self.stat_summary = stat_summary
 
 	
-	def most_played_champions(self, champ_dict*****): #returns a sorted list of tuples that sorts it based on games played 
+	def most_played_champions(self, champ_dict): #returns a sorted list of tuples that sorts it based on games played 
 		dct = {}
 		for each_champ in self.my_ranked_stats['champions']:
 			for key in champ_dict:
@@ -54,7 +52,7 @@ class Riot_Data(Static_Data):
 		return sorted(dct.items(), key = lambda x : (-x[1], x[0]))
 
 	
-	def ranked_win_percentage(self, champ_dict*****):
+	def ranked_win_percentage(self, champ_dict):
 		dct = {}
 		for each_champ in self.my_ranked_stats['champions']:
 			for key in champ_dict:
@@ -78,7 +76,6 @@ class Riot_Data(Static_Data):
 			for key in y:
 				if(y['playerStatSummaryType']=="RankedSolo5x5"):
 					x = y['modifyDate']
-		#return x/1000
 		date_ranked = time.strftime('%Y-%m-%d', time.localtime(x/1000))
 		return date_ranked
 
@@ -89,7 +86,6 @@ class Riot_Data(Static_Data):
 			for key in y:
 				if(y['playerStatSummaryType']=="RankedFlexSR"):
 					x = y['modifyDate']
-		#return x/1000
 		date_flex = time.strftime('%Y-%m-%d', time.localtime(x/1000))
 		return date_flex
 
@@ -101,13 +97,11 @@ class Riot_Data(Static_Data):
 
 
 data = Riot_Data(w.get_ranked_stats(summoner_id), w.get_stat_summary(summoner_id))
-print(data.most_played_champions(champion_dict****))
-print(data.ranked_win_percentage(champion_dict****))
+print(data.most_played_champions(data.champion_dict()))
+print(data.ranked_win_percentage(data.champion_dict()))
 print(data.overall_ranked_win_percentage())
 print(data.last_played_ranked_game())
 print(data.last_played_flex_game())
 print(data.last_time_logged_in())
-
-#having trouble with champion_dict and inheriting from the class (I can't seem to make it work)
 
 #  Making bar charts: http://matplotlib.org/examples/api/barchart_demo.html

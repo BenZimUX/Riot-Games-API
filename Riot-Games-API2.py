@@ -43,6 +43,7 @@ class Riot_Data():
 		self.champion_list = champion_list
 		self.stat_summary = stat_summary
 
+	
 	def most_played_champions(self, champ_dict): #returns a sorted list of tuples that sorts it based on games played 
 		dct = {}
 		for each_champ in self.my_ranked_stats['champions']:
@@ -50,8 +51,7 @@ class Riot_Data():
 				if(each_champ['id']==champ_dict[key]):
 					dct[key] = each_champ['stats']['totalSessionsPlayed'] 
 		return sorted(dct.items(), key = lambda x : (-x[1], x[0]))
-	# most_played_champions = most_played_champions(champion_dict)
-	#print (most_played_champions)
+	
 
 	def ranked_win_percentage(self, champ_dict):
 		dct = {}
@@ -61,8 +61,6 @@ class Riot_Data():
 					dct[key] = each_champ['stats']['totalSessionsWon']/each_champ['stats']['totalSessionsPlayed']
 		return sorted(dct.items(), key = lambda x : (-x[1], x[0]))
 
-	# win_pct = ranked_win_percentage(champion_dict)
-	#print (win_pct)
 
 	def overall_ranked_win_percentage(self):
 		x = 0
@@ -72,8 +70,6 @@ class Riot_Data():
 					x = y['wins']/(y['losses']+y['wins'])
 		return x
 
-	# overall_ranked_win_percentage = overall_ranked_win_percentage()
-	#print (overall_ranked_win_percentage)
 
 	def last_played_ranked_game(self):
 		x = 0
@@ -84,8 +80,7 @@ class Riot_Data():
 		#return x/1000
 		date_ranked = time.strftime('%Y-%m-%d', time.localtime(x/1000))
 		return date_ranked
-	# last_played_ranked_game = last_played_ranked_game()
-	#print (last_played_ranked_game)
+
 
 	def last_played_flex_game(self):
 		x = 0
@@ -93,19 +88,16 @@ class Riot_Data():
 			for key in y:
 				if(y['playerStatSummaryType']=="RankedFlexSR"):
 					x = y['modifyDate']
-		#return x/1000
 		date_flex = time.strftime('%Y-%m-%d', time.localtime(x/1000))
 		return date_flex
-	# last_played_flex_game = last_played_flex_game()
-	# print (last_played_flex_game)
+
 
 	def last_time_logged_in(self):
 		summoner_date = summoner['revisionDate']
 		date_general = time.strftime('%Y-%m-%d', time.localtime(summoner_date/1000))
 		return date_general
 
-	# last_time_logged_in = last_time_logged_in()
-	# print (last_time_logged_in)
+
 
 data = Riot_Data(w.get_ranked_stats(summoner_id), w.static_get_champion_list(), w.get_stat_summary(summoner_id))
 print(data.most_played_champions(champion_dict))
