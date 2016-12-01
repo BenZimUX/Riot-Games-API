@@ -14,7 +14,7 @@ w = RiotWatcher("RGAPI-76f4bcb6-da64-455a-aad2-07eee7ad0e8f")
 
 who_are_you = str(input("Please enter your summoner name:"))
 summoner = w.get_summoner(name = who_are_you)
-print (summoner)
+#print (summoner)
 summoner_id = summoner['id']
 champion_list = w.static_get_champion_list()
 
@@ -95,13 +95,80 @@ class Riot_Data(Cleaned_Champion_Data):
 		date_general = time.strftime('%Y-%m-%d', time.localtime(summoner_date/1000))
 		return date_general
 
-
 data = Riot_Data(w.get_ranked_stats(summoner_id), w.get_stat_summary(summoner_id))
-print(data.most_played_champions(data.champion_dict()))
-print(data.ranked_win_percentage(data.champion_dict()))
-print(data.overall_ranked_win_percentage())
-print(data.last_played_ranked_game())
-print(data.last_played_flex_game())
-print(data.last_time_logged_in())
 
-#  Making bar charts: http://matplotlib.org/examples/api/barchart_demo.html
+most_played_champions = (data.most_played_champions(data.champion_dict()))
+
+most_played_champions_list = []
+for x in most_played_champions:
+	most_played_champions_list.append(x[1])
+
+most_played_champions_list2 = []
+for x in most_played_champions:
+	most_played_champions_list2.append(x[0])
+# short = []
+# for x in most_played_champions_list2:
+# 	short.append(x[0:4])
+
+
+ranked_win_percentage = (data.ranked_win_percentage(data.champion_dict()))
+
+ranked_win_percentage_list = []
+for x in ranked_win_percentage:
+	ranked_win_percentage_list.append(x[1])
+
+
+ranked_win_percentage_list2 = []
+for x in ranked_win_percentage:
+	ranked_win_percentage_list2.append(x[0])
+# short2 = []
+# for x in ranked_win_percentage_list2:
+# 	short2.append(x[0:4])
+
+
+def graphing_most_played_champs():
+	N = len(most_played_champions_list)
+	mostplayed = most_played_champions_list
+	
+	ind = np.arange(N)  
+	width = 0.35     
+
+	fig, ax = plt.subplots()
+	rects1 = ax.bar(ind, mostplayed, width, color='b')
+	for rect in rects1:
+	        height = rect.get_height()
+	        ax.text(rect.get_x() + rect.get_width()/2., height,
+	                '%d' % int(height),
+	                ha='center', va='bottom')
+	ax.set_ylabel('Number of Games Played') 
+	ax.set_title('Most Played Ranked Champions')
+	ax.set_xticks(ind + width)
+	ax.set_xticklabels(most_played_champions_list2, rotation = 90) 
+	plt.show()
+
+def graphing_win_percentage():
+	N = len(ranked_win_percentage_list)
+	winpct = (ranked_win_percentage_list)
+	
+	ind = np.arange(N) 
+	width = 0.35      
+
+	fig, ax = plt.subplots()
+	rects1 = ax.bar(ind, winpct, width, color='b')
+	for rect in rects1:
+	        height = rect.get_height()
+	        ax.text(rect.get_x() + rect.get_width()/2., 1.05*height,
+	                '%d' % int(height),
+	                ha='center', va='bottom')
+	ax.set_ylabel('Win Percentage') 
+	ax.set_title('Ranked Win Percentage by Champion')
+	ax.set_xticks(ind + width)
+	ax.set_xticklabels(ranked_win_percentage_list2, rotation = 90) 
+	plt.show()
+
+graphing_most_played_champs()
+graphing_win_percentage()
+print("Your Overall Ranked Win Percentage is:", data.overall_ranked_win_percentage())
+print("Your Last Played Ranked Game was on:", data.last_played_ranked_game())
+print("Your Last Played Ranked Flex Game was on:", data.last_played_flex_game())
+print("The Last Time You Logged In Was:", data.last_time_logged_in())
