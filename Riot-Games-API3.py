@@ -66,7 +66,10 @@ class Riot_Data(Cleaned_Champion_Data):
 		for y in self.stat_summary['playerStatSummaries']:
 			for key in y:
 				if(y['playerStatSummaryType']=="RankedSolo5x5"):
-					x = y['wins']/(y['losses']+y['wins'])
+					if y['losses']+y['wins'] != 0:
+						x = y['wins']/(y['losses']+y['wins'])
+					else:
+						print ("Unable to Calculate")
 		return x
 
 
@@ -106,10 +109,6 @@ for x in most_played_champions:
 most_played_champions_list2 = []
 for x in most_played_champions:
 	most_played_champions_list2.append(x[0])
-# short = []
-# for x in most_played_champions_list2:
-# 	short.append(x[0:4])
-
 
 ranked_win_percentage = (data.ranked_win_percentage(data.champion_dict()))
 
@@ -121,9 +120,6 @@ for x in ranked_win_percentage:
 ranked_win_percentage_list2 = []
 for x in ranked_win_percentage:
 	ranked_win_percentage_list2.append(x[0])
-# short2 = []
-# for x in ranked_win_percentage_list2:
-# 	short2.append(x[0:4])
 
 
 def graphing_most_played_champs():
@@ -151,7 +147,7 @@ def graphing_win_percentage():
 	winpct = (ranked_win_percentage_list)
 	
 	ind = np.arange(N) 
-	width = 0.35      
+	width = 0.4      
 
 	fig, ax = plt.subplots()
 	rects1 = ax.bar(ind, winpct, width, color='b')
